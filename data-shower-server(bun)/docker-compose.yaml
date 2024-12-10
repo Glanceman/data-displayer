@@ -1,0 +1,21 @@
+services:
+  json-shower-server:
+    build: .
+    image: data-shower-server-bun
+    restart: always
+    container_name: data-shower-server-bun
+    ports:
+      - 3000:3000
+      - 3443:3443
+    volumes:
+      - ./res:/app/data-shower-server/res
+    develop:
+      watch:
+        - action: sync+restart
+          path: ./index.js
+          target: /app/data-shower-server/index.js
+        - action: sync+restart
+          path: ./package.json
+          target: /app/data-shower-server/package.json
+    extra_hosts:
+      - "dockerhost:host-gateway"

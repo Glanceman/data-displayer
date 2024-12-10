@@ -1,0 +1,21 @@
+# Build stage
+FROM oven/bun:alpine as build
+
+WORKDIR /app/data-shower-server
+
+COPY package*.json ./
+
+RUN bun install --production
+
+# Final stage
+FROM oven/bun:alpine
+
+WORKDIR /app/data-shower-server
+
+COPY --from=build /app/data-shower-server/node_modules ./node_modules
+
+COPY . .
+
+EXPOSE 3000 3443
+
+CMD [ "bun" ,"run","release"]

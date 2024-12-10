@@ -1,0 +1,6 @@
+{
+    "ignore": [
+      "res/*"
+    ],
+    "exec": "bun ./index.js"
+  }
