@@ -1,10 +1,9 @@
-## build web front end 
-
-1. `cd data-shower-web`
+## build application 
+1. `cd data-displayer-web`
     1. `npm install`
     2. `npm run build`
-    3. copy dist folder to data-shower-server(bun)
-2. `cd ../data-shower-server(bun)`
+    3. copy dist folder to data-displayer-server(bun)
+2. `cd ../data-displayer-server(bun)`
     1. add self-sign X509 cert to /certs/
     2. `docker-compose up`
 

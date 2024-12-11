@@ -1,7 +1,7 @@
 <template>
   <div class="min-h-screen bg-background text-foreground">
     <header class="bg-primary text-primary-foreground py-4 px-6 shadow-md">
-      <h1 class="text-2xl font-bold">Data Shower Web</h1>
+      <h1 class="text-2xl font-bold">Data Displayer Web</h1>
     </header>
     <main class="container mx-auto px-4 py-8">
       <Card class="w-full max-w-4xl mx-auto">
@@ -28,7 +28,7 @@
             </div>
             <div class="flex space-x-2">
               <Button @click="clearSequences" variant="outline">Clear All</Button>
-              <Button @click="reconnectToBackend" variant="outline" :disabled="!isDisconnected">
+              <Button @click="reconnectToBackend" variant="outline" :disabled="!isDisconnected || isReconnecting">
                 <RefreshCwIcon v-if="isReconnecting" class="mr-2 h-4 w-4 animate-spin" />
                 <PlugIcon v-else class="mr-2 h-4 w-4" :class="{ 'text-red-500': isDisconnected }" />
                 {{ isDisconnected ? 'Reconnect' : 'Connected' }}
@@ -137,6 +137,7 @@ const clearSequences = () => {
 }
 
 const connectToBackend = () => {
+  isReconnecting.value = true
   socket = io(import.meta.env.VITE_SOCKET_IO_URL)
 
   socket.on('connect', () => {
@@ -163,7 +164,6 @@ const connectToBackend = () => {
 
 const reconnectToBackend = () => {
   if (isDisconnected.value) {
-    isReconnecting.value = true
     if (socket) {
       socket.disconnect()
     }
@@ -172,6 +172,8 @@ const reconnectToBackend = () => {
 }
 
 onMounted(() => {
+  isDisconnected.value=true;
+
   connectToBackend()
 })
 
